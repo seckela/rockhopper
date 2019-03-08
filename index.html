@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rock Hoppers | The Expanse Lives</title>
+	<link rel="shortcut icon" type="image/x-icon" href="https://theexpanselives.com/wp-content/themes/stellaris/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="css/core.css">
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124889054-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-124889054-1');
+    </script>
+</head>
+<body>
+	<iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+	<audio id="music" autoplay loop>
+    	<source src="sounds/music.mp3" type="audio/mp3">
+	</audio>
+	<audio id="pdcs" loop>
+    	<source src="sounds/pdcs.wav" type="audio/wav">
+	</audio>
+	<audio id="hit" loop>
+    	<source src="sounds/hit.wav" type="audio/wav">
+	</audio>
+	<audio id="ooa" loop>
+    	<source src="sounds/ooa.mp3" type="audio/mp3">
+	</audio>
+	<audio id="explode1" volume="0.25">
+		<source src="sounds/explosion1.wav" type="audio/wav">
+	</audio>
+	<div id="sound"><span id="sound-on">Sound: On</span><span id="sound-off" class="hide">Sound: Off</span></div>
+	<div id="pause" class="hide disp">PAUSED<br>
+		<div class="controls">Patch Notes:<a href='version.js' id="patch" target="_blank"></a><br><br>- CONTROLS - <br><br>ESCAPE: PAUSE/RESUME<br>M: TOGGLE SOUND<br>MOUSE: AIM<br>CLICK/SPACE: SHOOT<br>R: RELOAD<br>W/UP: THRUST<br>S/DOWN: VECTOR FLIP<br>A/LEFT: TURN LEFT<br>D/RIGHT: TURN RIGHT
+		</div>
+		<div class="controls">
+			<br> Dedicated to the Memory of
+			<br>Walter "Wally" Dale Scott
+			<br>(1985 - 2019)
+			<br><br>- CREDITS -<br><br>
+			<span class="creditHeader">Developer:</span> Mikhail Thomas - <a href="http://www.twitter.com/seckela" target="_blank">@Seckela</a><br>
+			<span class="creditHeader">Music:</span> R.D. Giordano - <a href="http://www.twitter.com/FluffyCat84" target="_blank">@FluffyCat84</a><br>
+			<span class="creditHeader">Assets and Testing:</span>  <a href="https://theexpanselives.com/about-tel/" target="_blank">The Expanse Lives Crew</a><br>
+			<span class="creditHeader">Special Thanks:</span> Adam Meyer - <a href="http://www.twitter.com/akudou" target="_blank">@akudou</a><br><br>Bug Reports / Dev Contact: <a href="mailto:me@mikhailthomas.com">me@mikhailthomas.com</a>
+		</div>
+	</div>
+	<div id="level" class="hide disp"></div>
+	<div id="go" class="hide disp">GAME OVER<div id="goHex" class="sub"></div><div id="goLevel" class="sub"></div><div id="subScore"></div><div class="sub">CLICK TO RESTART</div></div>
+	<img src="img/roci_sprite.png" id="roci">
+	<canvas id="space"></canvas>
+	<div id="console"><div id="scoreBase">88888888</div><div id="score"></div><div id="ammo"></div></div>
+
+
+<script src="js/console.js?version=1.0.5"></script>
+<script src="js/audio.js?version=1.0.5"></script>
+<script src="js/game.js?version=1.0.5"></script>
+<script src="version.js?version=1.0.5"></script>
+</body>
+</html>
