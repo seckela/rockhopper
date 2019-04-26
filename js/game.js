@@ -30,6 +30,7 @@ var canv = document.getElementById("space"),
 
 var curFrame = 0;
 var gameState = 0; //0 = Live, 1 = Game Over
+var cakeCount = 0;
 
 var ship = {
 	x: canv.width/2,
@@ -86,7 +87,16 @@ var ship = {
 				if(!ship.turret1.bullet[i].live){
 					continue;
 				}
-				ctx.fillStyle = "gold";
+				//ctx.fillStyle = "gold";
+				var cr = 'rgb('+
+    				Math.floor(Math.random()*256)+','+
+    				Math.floor(Math.random()*256)+','+
+    				Math.floor(Math.random()*256)+')';
+    			if(cakeCount < 3){
+    				ctx.fillStyle = 'gold'; // set cr if color mode
+    			} else {
+    				ctx.fillStyle = cr;
+    			}
 				ctx.beginPath();
 				ctx.arc(ship.turret1.bullet[i].x,ship.turret1.bullet[i].y, SCALE/15, 0, Math.PI * 2, false);
 				ctx.fill();
@@ -146,7 +156,16 @@ var ship = {
 				if(!ship.turret2.bullet[i].live){
 					continue;
 				}
-				ctx.fillStyle = "gold";
+				//ctx.fillStyle = "gold";
+				var cr = 'rgb('+
+    				Math.floor(Math.random()*256)+','+
+    				Math.floor(Math.random()*256)+','+
+    				Math.floor(Math.random()*256)+')';
+    			if(cakeCount < 3){
+    				ctx.fillStyle = 'gold'; // set cr if color mode
+    			} else {
+    				ctx.fillStyle = cr;
+    			}
 				ctx.beginPath();
 				ctx.arc(ship.turret2.bullet[i].x,ship.turret2.bullet[i].y, SCALE/15, 0, Math.PI * 2, false);
 				ctx.fill();
@@ -279,7 +298,12 @@ world = {
 	particales: [],
 	space(){
 			//draw space
-		ctx.fillStyle = "black";
+		if(cakeCount < 3){
+			ctx.fillStyle = "black"; //norm black
+		} else {
+			ctx.fillStyle = "pink"; //norm black
+		}
+		
 		ctx.fillRect(0, 0, canv.width, canv.height);
 	},
 	asteroids: {
@@ -466,6 +490,9 @@ function keyDown(e){
 		break;
 		case 27:
 			gamePause();
+		break;
+		case 57:
+			cakeCount++;
 		break;
 		case 77:
 			soundToggle(e);
