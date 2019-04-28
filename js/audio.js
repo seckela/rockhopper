@@ -7,3 +7,19 @@ function procSound(sound, action, volume){
 		document.getElementById(sound).currentTime = 0;
 	}
 }
+
+function soundToggle(){
+	if(world.sound){
+		world.sound = false;
+		world.sfx = false;
+		document.getElementById('music').volume = 0;
+		document.getElementById('sound-off').classList.remove('hide');
+		document.getElementById('sound-on').classList.add('hide');
+	} else {
+		world.sound = true;
+		world.sfx = true;
+		document.getElementById('music').volume = 1;
+		document.getElementById('sound-on').classList.remove('hide');
+		document.getElementById('sound-off').classList.add('hide');
+	}
+}
