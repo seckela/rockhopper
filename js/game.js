@@ -23,7 +23,7 @@ const V_PDCS = 0.4;
 const V_EXP = 0.2;
 const V_OOA = 0.4;
 
-var canv = document.getElementById("space"),
+var canv = document.getElementById('space'),
 	ctx = canv.getContext('2d');
 	ctx.canvas.width  = window.innerWidth - 200;
   	ctx.canvas.height = window.innerHeight;
@@ -53,8 +53,8 @@ var ship = {
 		a: toRads(90),
 		bullet:[],
 		draw(){
-			procSound("hit", "pause");
-			ctx.strokeStyle = "red",
+			procSound('hit', 'pause');
+			ctx.strokeStyle = 'red',
 			ctx.lineWidth = SCALE / 10;
 			ctx.beginPath();
 			ship.turret1.x = ship.x - 8 * Math.cos(ship.a-Math.PI/2);
@@ -78,7 +78,7 @@ var ship = {
 					if(distBetweenPoints(ship.turret1.bullet[i].x, ship.turret1.bullet[i].y, world.asteroids.count[j].x,world.asteroids.count[j].y) < world.asteroids.count[j].r){
 						world.asteroids.count[j].hp--;
 						ship.turret1.bullet[i].live = false;
-						if(gameState == 0){
+						if(gameState === 0){
 							procSound('hit', 'play', V_HIT);
 						}
 						break;
@@ -87,7 +87,7 @@ var ship = {
 				if(!ship.turret1.bullet[i].live){
 					continue;
 				}
-				//ctx.fillStyle = "gold";
+				//ctx.fillStyle = 'gold';
 				var cr = 'rgb('+
     				Math.floor(Math.random()*256)+','+
     				Math.floor(Math.random()*256)+','+
@@ -123,7 +123,7 @@ var ship = {
 		a: toRads(90),
 		bullet:[],
 		draw(){
-			ctx.strokeStyle = "red",
+			ctx.strokeStyle = 'red',
 			ctx.lineWidth = SCALE / 10;
 			ctx.beginPath();
 			ship.turret2.x = ship.x + 8 * Math.cos(ship.a-Math.PI/2);
@@ -147,7 +147,7 @@ var ship = {
 					if(distBetweenPoints(ship.turret2.bullet[i].x, ship.turret2.bullet[i].y, world.asteroids.count[j].x,world.asteroids.count[j].y) < world.asteroids.count[j].r){
 						world.asteroids.count[j].hp--;
 						ship.turret2.bullet[i].live = false;
-						if(gameState == 0){
+						if(gameState === 0){
 							procSound('hit', 'play', V_HIT);
 						}
 						break;
@@ -156,7 +156,7 @@ var ship = {
 				if(!ship.turret2.bullet[i].live){
 					continue;
 				}
-				//ctx.fillStyle = "gold";
+				//ctx.fillStyle = 'gold';
 				var cr = 'rgb('+
     				Math.floor(Math.random()*256)+','+
     				Math.floor(Math.random()*256)+','+
@@ -213,7 +213,7 @@ var ship = {
 				live: true
 				})
 			};
-			if(ship.ammo == 0) {
+			if(ship.ammo === 0) {
 				ship.reloading = true;
 				updateAmmo();
 				setTimeout(reload, RELOAD_TIME);
@@ -232,26 +232,26 @@ var ship = {
 				gameOver();
 			}
 		}
-		if(gameState == 0){
+		if(gameState === 0){
 			ctx.save();
 			ctx.translate(ship.x,ship.y);
 			ctx.rotate(-1*(ship.a-Math.PI/2));
 			if(ship.accl){
-				ctx.fillStyle = "#20B3FF";
+				ctx.fillStyle = '#20B3FF';
 				ctx.beginPath();
 				ctx.arc(0,33, SCALE/5, 0, Math.PI * 2, false);
 				ctx.fill();
-				ctx.fillStyle = "#DDF1FF";
+				ctx.fillStyle = '#DDF1FF';
 				ctx.beginPath();
 				ctx.arc(0,33, SCALE/10, 0, Math.PI * 2, false);
 				ctx.fill();
 			}
-			ctx.drawImage(document.getElementById("roci"),-10,-31);
+			ctx.drawImage(document.getElementById('roci'),-10,-31);
 			ctx.restore();
 		}
 
 		if(HITBOX){
-			ctx.strokeStyle = "lime"
+			ctx.strokeStyle = 'lime'
 			ctx.beginPath();
 			ctx.arc(ship.x, ship.y, ship.r, 0, Math.PI * 2, false);
 			ctx.stroke();
@@ -299,9 +299,9 @@ world = {
 	space(){
 			//draw space
 		if(cakeCount < 3){
-			ctx.fillStyle = "black"; //norm black
+			ctx.fillStyle = 'black'; //norm black
 		} else {
-			ctx.fillStyle = "pink"; //norm black
+			ctx.fillStyle = 'pink'; //norm black
 		}
 		
 		ctx.fillRect(0, 0, canv.width, canv.height);
@@ -344,7 +344,7 @@ world = {
 					continue;
 				}
 			}
-			ctx.strokeStyle = "#20B3FF";
+			ctx.strokeStyle = '#20B3FF';
 			ctx.lineWidth = SCALE/10;
 			for(var i = 0; i < world.asteroids.count.length; i++){
 				if(!world.asteroids.count[i].live){
@@ -378,7 +378,7 @@ world = {
 				ctx.fill();
 
 				if(HITBOX){
-					ctx.strokeStyle = "lime"
+					ctx.strokeStyle = 'lime'
 					ctx.beginPath();
 					ctx.arc(x, y, r, 0, Math.PI * 2, false);
 					ctx.stroke();
@@ -409,12 +409,12 @@ world = {
 						procSound('explode1', 'play', V_EXP);
 					}
 					world.asteroids.count.splice(i, 1);
-					if(world.asteroids.count.length % 2 == 1){
+					if(world.asteroids.count.length % 2 === 1){
 						quoteCrew();
 					}
 				}
 			}
-			if(world.asteroids.count.length == 0){
+			if(world.asteroids.count.length === 0){
 				nextLevel();
 			}
 		},
@@ -429,9 +429,9 @@ function createAsteroids(){
 
 createAsteroids();
 calcScore();
-document.getElementById('patch').innerHTML = " v" + world.version;
+document.getElementById('patch').innerHTML = ' v' + world.version;
 
-messageIngest("Starting Level: " + world.level, "console");
+messageIngest('Starting Level: ' + world.level, 'console');
 
 function explode(x, y, type){
 
@@ -449,17 +449,17 @@ function frameCount(){
 }
 
 //event listeners
-document.addEventListener("keydown", keyDown);
-document.addEventListener("keyup", keyUp);
-document.addEventListener("mousemove", target);
-document.addEventListener("mousedown", function(e){
+document.addEventListener('keydown', keyDown);
+document.addEventListener('keyup', keyUp);
+document.addEventListener('mousemove', target);
+document.addEventListener('mousedown', function(e){
 	ship.firing = true;
 	e.preventDefault();
-	if(gameState == 1){
+	if(gameState === 1){
 		resetGame();
 	}
 });
-document.addEventListener("mouseup", function(e){
+document.addEventListener('mouseup', function(e){
 	ship.firing = false;
 	e.preventDefault();
 });
@@ -467,10 +467,10 @@ document.addEventListener("mouseup", function(e){
 window.addEventListener('resize', function(){
   canv.width = w = window.innerWidth;
   canv.height = h = window.innerHeight;
-  document.getElementById("console").style.height = window.innerHeight + "px";
+  document.getElementById('console').style.height = window.innerHeight + 'px';
 }, false);
 
-document.getElementById("sound").addEventListener("click", function(e){
+document.getElementById('sound').addEventListener('click', function(e){
 	e.preventDefault();
 	soundToggle();
 });
@@ -546,7 +546,7 @@ function target(e){
 
 function update() {
 	world.space();
-	if(gameState == 0){
+	if(gameState === 0){
 		frameCount();
 		ship.move();
 		ship.turn();
@@ -569,24 +569,24 @@ function reload(){
 
 function nextLevel(){
 	world.level++;
-	var message = document.getElementsByClassName("message");
+	var message = document.getElementsByClassName('message');
 	while(message[0]){
 		message[0].parentNode.removeChild(message[0]);
 	}
-	messageIngest("Starting Level: " + world.level, "console");
-	document.getElementById("level").innerHTML = "Level: " + world.level;
-	document.getElementById("level").classList.remove("hide");
-	setTimeout(function(){ document.getElementById("level").classList.add("hide"); }, 2000);
+	messageIngest('Starting Level: ' + world.level, 'console');
+	document.getElementById('level').innerHTML = 'Level: ' + world.level;
+	document.getElementById('level').classList.remove('hide');
+	setTimeout(function(){ document.getElementById('level').classList.add('hide'); }, 2000);
 	createAsteroids();
 }
 
 function gamePause() {
-	if(gameState == 0){
+	if(gameState === 0){
 		gameState = 2;
-		document.getElementById("pause").classList.remove("hide");
-	} else if(gameState == 2){
+		document.getElementById('pause').classList.remove('hide');
+	} else if(gameState === 2){
 		gameState = 0;
-		document.getElementById("pause").classList.add("hide");
+		document.getElementById('pause').classList.add('hide');
 	}
 }
 
@@ -596,20 +596,20 @@ function gameOver() {
 	procSound('pdcs', 'pause');
 	procSound('ooa', 'pause');
 	procSound('hit', 'pause');
-	document.getElementById("goHex").innerHTML = world.hex;
-	document.getElementById("goLevel").innerHTML = "Level: " + world.level;
-	document.getElementById("go").classList.remove("hide");
+	document.getElementById('goHex').innerHTML = world.hex;
+	document.getElementById('goLevel').innerHTML = 'Level: ' + world.level;
+	document.getElementById('go').classList.remove('hide');
 
 }
 
 function resetGame() {
-	var message = document.getElementsByClassName("message");
+	var message = document.getElementsByClassName('message');
 	while(message[0]){
 		message[0].parentNode.removeChild(message[0]);
 	}
 	world.level = 1;
-	messageIngest("Starting Level: " + world.level, "console");
-	document.getElementById("go").classList.add("hide");
+	messageIngest('Starting Level: ' + world.level, 'console');
+	document.getElementById('go').classList.add('hide');
 	score = 0;
 	calcScore();
 	world.asteroids.count = [];

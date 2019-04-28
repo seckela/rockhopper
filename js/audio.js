@@ -1,5 +1,15 @@
+//sound actions
+const play = 'play';
+const pause = 'pause';
+//sound list
+const hit = 'hit';
+const ooa = 'ooa'; //Out of Ammo
+const pdcs = 'pdcs'; //Turrets
+const explode1 = 'explode1'; //Asteroid Explosion
+
+
 function procSound(sound, action, volume){
-	if(world.sound && action == "play"){
+	if(world.sound && action === play){
 		document.getElementById(sound).volume = volume;
 		document.getElementById(sound).play();
 	} else {
