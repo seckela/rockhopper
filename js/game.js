@@ -229,7 +229,8 @@ var ship = {
 				document.getElementById('ammo').classList.add('cheat');
 			}
 			if(distBetweenPoints(ship.x, ship.y, world.asteroids.count[i].x, world.asteroids.count[i].y) < ship.r + world.asteroids.count[i].r && !ship.inv){
-				gameOver();
+				//gameOver();
+				changeState(state.gameover);
 			}
 		}
 		if(gameState === 0){
@@ -455,7 +456,7 @@ document.addEventListener('mousemove', target);
 document.addEventListener('mousedown', function(e){
 	ship.firing = true;
 	e.preventDefault();
-	if(gameState === 1){
+	if(gameState === 1 || currentState === 'GAMEOVER' ){
 		resetGame();
 	}
 });
@@ -591,14 +592,14 @@ function gamePause() {
 }
 
 function gameOver() {
-	gameState = 1;
-	ship.firing = false;
-	procSound('pdcs', 'pause');
-	procSound('ooa', 'pause');
-	procSound('hit', 'pause');
-	document.getElementById('goHex').innerHTML = world.hex;
-	document.getElementById('goLevel').innerHTML = 'Level: ' + world.level;
-	document.getElementById('go').classList.remove('hide');
+	//gameState = 1;
+	//ship.firing = false;
+	//procSound('pdcs', 'pause');
+	//procSound('ooa', 'pause');
+	//procSound('hit', 'pause');
+	//document.getElementById('goHex').innerHTML = world.hex;
+	//document.getElementById('goLevel').innerHTML = 'Level: ' + world.level;
+	//document.getElementById('go').classList.remove('hide');
 
 }
 
