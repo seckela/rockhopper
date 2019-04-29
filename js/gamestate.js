@@ -1,27 +1,29 @@
-const state = {
-	start: "START",
-	live: "LIVE",
-	pause: "PAUSE",
-	gameover: "GAMEOVER"
+const State = {
+	Start: "START",
+	Live: "LIVE",
+	Pause: "PAUSE",
+	GameOver: "GAMEOVER"
 }
 
-let currentState = state.start;
+let currentState = State.Live;
 
-if (!state) {
+if (!State) {
   throw new Error("state is not defined");
 }
 
 var changeState = function(relState){
 	currentState = relState;
 	switch(currentState){
-	case state.start:
-
-	case state.live:
-
-	case state.pause:
-
-	case state.gameover:
-		gameState = 1;
+	case State.Start:
+		break;
+	case State.Live:
+		document.getElementById('pause').classList.add('hide');
+		document.getElementById('go').classList.add('hide');
+		break;
+	case State.Pause:
+		document.getElementById('pause').classList.remove('hide');
+		break;
+	case State.GameOver:
 		ship.firing = false;
 		procSound('pdcs', 'pause');
 		procSound('ooa', 'pause');
@@ -29,5 +31,6 @@ var changeState = function(relState){
 		document.getElementById('goHex').innerHTML = world.hex;
 		document.getElementById('goLevel').innerHTML = 'Level: ' + world.level;
 		document.getElementById('go').classList.remove('hide');
+		break;
 	}
 }

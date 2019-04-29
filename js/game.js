@@ -29,7 +29,6 @@ var canv = document.getElementById('space'),
   	ctx.canvas.height = window.innerHeight;
 
 var curFrame = 0;
-var gameState = 0; //0 = Live, 1 = Game Over
 var cakeCount = 0;
 
 var ship = {
@@ -78,7 +77,7 @@ var ship = {
 					if(distBetweenPoints(ship.turret1.bullet[i].x, ship.turret1.bullet[i].y, world.asteroids.count[j].x,world.asteroids.count[j].y) < world.asteroids.count[j].r){
 						world.asteroids.count[j].hp--;
 						ship.turret1.bullet[i].live = false;
-						if(gameState === 0){
+						if(currentState === State.Live){
 							procSound('hit', 'play', V_HIT);
 						}
 						break;
@@ -147,7 +146,7 @@ var ship = {
 					if(distBetweenPoints(ship.turret2.bullet[i].x, ship.turret2.bullet[i].y, world.asteroids.count[j].x,world.asteroids.count[j].y) < world.asteroids.count[j].r){
 						world.asteroids.count[j].hp--;
 						ship.turret2.bullet[i].live = false;
-						if(gameState === 0){
+						if(currentState === State.Live){
 							procSound('hit', 'play', V_HIT);
 						}
 						break;
@@ -229,11 +228,10 @@ var ship = {
 				document.getElementById('ammo').classList.add('cheat');
 			}
 			if(distBetweenPoints(ship.x, ship.y, world.asteroids.count[i].x, world.asteroids.count[i].y) < ship.r + world.asteroids.count[i].r && !ship.inv){
-				//gameOver();
-				changeState(state.gameover);
+				changeState(State.GameOver);
 			}
 		}
-		if(gameState === 0){
+		if(currentState === State.Live){
 			ctx.save();
 			ctx.translate(ship.x,ship.y);
 			ctx.rotate(-1*(ship.a-Math.PI/2));
@@ -456,7 +454,7 @@ document.addEventListener('mousemove', target);
 document.addEventListener('mousedown', function(e){
 	ship.firing = true;
 	e.preventDefault();
-	if(gameState === 1 || currentState === 'GAMEOVER' ){
+	if(currentState === State.GameOver){
 		resetGame();
 	}
 });
@@ -490,7 +488,11 @@ function keyDown(e){
 			}
 		break;
 		case 27:
-			gamePause();
+			if(currentState === State.Live){
+				changeState(State.Pause);
+			} else if(currentState === State.Pause){
+				changeState(State.Live);
+			}
 		break;
 		case 57:
 			cakeCount++;
@@ -547,7 +549,7 @@ function target(e){
 
 function update() {
 	world.space();
-	if(gameState === 0){
+	if(currentState === State.Live){
 		frameCount();
 		ship.move();
 		ship.turn();
@@ -581,28 +583,6 @@ function nextLevel(){
 	createAsteroids();
 }
 
-function gamePause() {
-	if(gameState === 0){
-		gameState = 2;
-		document.getElementById('pause').classList.remove('hide');
-	} else if(gameState === 2){
-		gameState = 0;
-		document.getElementById('pause').classList.add('hide');
-	}
-}
-
-function gameOver() {
-	//gameState = 1;
-	//ship.firing = false;
-	//procSound('pdcs', 'pause');
-	//procSound('ooa', 'pause');
-	//procSound('hit', 'pause');
-	//document.getElementById('goHex').innerHTML = world.hex;
-	//document.getElementById('goLevel').innerHTML = 'Level: ' + world.level;
-	//document.getElementById('go').classList.remove('hide');
-
-}
-
 function resetGame() {
 	var message = document.getElementsByClassName('message');
 	while(message[0]){
@@ -627,7 +607,7 @@ function resetGame() {
 		x: 0,
 		y: 0
 	}
-	gameState = 0;
+	changeState(State.Live);
 	calcScore();
 	reload();
 }
