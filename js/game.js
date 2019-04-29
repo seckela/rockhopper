@@ -23,6 +23,12 @@ const V_PDCS = 0.4;
 const V_EXP = 0.2;
 const V_OOA = 0.4;
 
+// color pallete
+const asteroidColor = 'deepskyblue';
+const innerThrustColor = 'lightcyan';
+const outerThrustColor = 'deepskyblue';
+const bulletColor = 'gold';
+
 var canv = document.getElementById('space'),
 	ctx = canv.getContext('2d');
 	ctx.canvas.width  = window.innerWidth - 200;
@@ -92,7 +98,7 @@ var ship = {
     				Math.floor(Math.random()*256)+','+
     				Math.floor(Math.random()*256)+')';
     			if(cakeCount < 3){
-    				ctx.fillStyle = 'gold'; // set cr if color mode
+    				ctx.fillStyle = bulletColor; // set cr if color mode
     			} else {
     				ctx.fillStyle = cr;
     			}
@@ -161,7 +167,7 @@ var ship = {
     				Math.floor(Math.random()*256)+','+
     				Math.floor(Math.random()*256)+')';
     			if(cakeCount < 3){
-    				ctx.fillStyle = 'gold'; // set cr if color mode
+    				ctx.fillStyle = bulletColor; // set cr if color mode
     			} else {
     				ctx.fillStyle = cr;
     			}
@@ -236,11 +242,11 @@ var ship = {
 			ctx.translate(ship.x,ship.y);
 			ctx.rotate(-1*(ship.a-Math.PI/2));
 			if(ship.accl){
-				ctx.fillStyle = '#20B3FF';
+				ctx.fillStyle = outerThrustColor;
 				ctx.beginPath();
 				ctx.arc(0,33, SCALE/5, 0, Math.PI * 2, false);
 				ctx.fill();
-				ctx.fillStyle = '#DDF1FF';
+				ctx.fillStyle = innerThrustColor;
 				ctx.beginPath();
 				ctx.arc(0,33, SCALE/10, 0, Math.PI * 2, false);
 				ctx.fill();
@@ -343,7 +349,7 @@ world = {
 					continue;
 				}
 			}
-			ctx.strokeStyle = '#20B3FF';
+			ctx.strokeStyle = asteroidColor;
 			ctx.lineWidth = SCALE/10;
 			for(var i = 0; i < world.asteroids.count.length; i++){
 				if(!world.asteroids.count[i].live){
