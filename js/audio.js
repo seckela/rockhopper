@@ -7,18 +7,17 @@ const ooa = 'ooa'; //Out of Ammo
 const pdcs = 'pdcs'; //Turrets
 const explode1 = 'explode1'; //Asteroid Explosion
 
+var playSound = function(sound, volume){
+	document.getElementById(sound).volume = volume;
+	document.getElementById(sound).play();
+};
 
-function procSound(sound, action, volume){
-	if(world.sound && action === play){
-		document.getElementById(sound).volume = volume;
-		document.getElementById(sound).play();
-	} else {
-		document.getElementById(sound).pause();
-		document.getElementById(sound).currentTime = 0;
-	}
-}
+var pauseSound = function(sound, volume){
+	document.getElementById(sound).pause();
+	document.getElementById(sound).currentTime = 0;
+};
 
-function soundToggle(){
+var soundToggle = function(){
 	if(world.sound){
 		world.sound = false;
 		world.sfx = false;
@@ -32,4 +31,4 @@ function soundToggle(){
 		document.getElementById('sound-on').classList.remove('hide');
 		document.getElementById('sound-off').classList.add('hide');
 	}
-}
+};

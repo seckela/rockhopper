@@ -58,7 +58,7 @@ var ship = {
 		a: toRads(90),
 		bullet:[],
 		draw(){
-			procSound('hit', 'pause');
+			pauseSound('hit');
 			ctx.strokeStyle = 'red',
 			ctx.lineWidth = SCALE / 10;
 			ctx.beginPath();
@@ -84,7 +84,7 @@ var ship = {
 						world.asteroids.count[j].hp--;
 						ship.turret1.bullet[i].live = false;
 						if(currentState === State.Live){
-							procSound('hit', 'play', V_HIT);
+							playSound('hit', V_HIT);
 						}
 						break;
 					}
@@ -153,7 +153,7 @@ var ship = {
 						world.asteroids.count[j].hp--;
 						ship.turret2.bullet[i].live = false;
 						if(currentState === State.Live){
-							procSound('hit', 'play', V_HIT);
+							playSound('hit', V_HIT);
 						}
 						break;
 					}
@@ -194,8 +194,8 @@ var ship = {
 	fire(){
 		if(ship.firing){
 			if(ship.ammo > 0 && !ship.reloading){
-				procSound('ooa', 'pause');
-				procSound('pdcs', 'play', V_PDCS);
+				pauseSound('ooa');
+				playSound('pdcs', V_PDCS);
 				ship.ammo--;
 				ship.turret1.bullet.push({
 				x: ship.turret1.x + 15 * Math.cos(ship.turret1.a),
@@ -205,8 +205,8 @@ var ship = {
 				live: true
 				})
 			} else {
-				procSound('pdcs', 'pause');
-				procSound('ooa', 'play', V_OOA);
+				pauseSound('pdcs');
+				playSound('ooa', V_OOA);
 			};
 			if(ship.ammo > 0 && !ship.reloading){
 				ship.ammo--;
@@ -224,8 +224,8 @@ var ship = {
 				setTimeout(reload, RELOAD_TIME);
 			};
 		} else {
-			procSound('pdcs', 'pause');
-			procSound('ooa', 'pause');
+			pauseSound('pdcs');
+			pauseSound('ooa');
 		}
 	},
 	draw(){
@@ -411,7 +411,7 @@ world = {
 			for(var i = 0; i < world.asteroids.count.length; i++){
 				if(!world.asteroids.count[i].live){
 					if(world.sfx) {
-						procSound('explode1', 'play', V_EXP);
+						playSound('explode1', V_EXP);
 					}
 					world.asteroids.count.splice(i, 1);
 					if(world.asteroids.count.length % 2 === 1){
@@ -570,7 +570,7 @@ function update() {
 
 function reload(){
 	if(ship.reloading){
-		procSound('pdcs', 'pause');
+		pauseSound('pdcs');
 		ship.ammo = MAX_AMMO;
 		ship.reloading = false;
 	}
