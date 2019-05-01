@@ -7,17 +7,17 @@ const ooa = 'ooa'; //Out of Ammo
 const pdcs = 'pdcs'; //Turrets
 const explode1 = 'explode1'; //Asteroid Explosion
 
-var playSound = function(sound, volume){
+function playSound(sound, volume){
 	document.getElementById(sound).volume = volume;
 	document.getElementById(sound).play();
 };
 
-var pauseSound = function(sound, volume){
+function pauseSound(sound, volume){
 	document.getElementById(sound).pause();
 	document.getElementById(sound).currentTime = 0;
 };
 
-var soundToggle = function(){
+function soundToggle(){
 	if(world.sound){
 		world.sound = false;
 		world.sfx = false;

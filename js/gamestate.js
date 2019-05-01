@@ -11,7 +11,7 @@ if (!State) {
   throw new Error("state is not defined");
 }
 
-var changeState = function(relState){
+function changeState(relState){
 	currentState = relState;
 	switch(currentState){
 	case State.Start:
