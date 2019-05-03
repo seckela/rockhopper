@@ -25,9 +25,9 @@ function changeState(relState){
 		break;
 	case State.GameOver:
 		ship.firing = false;
-		procSound('pdcs', 'pause');
-		procSound('ooa', 'pause');
-		procSound('hit', 'pause');
+		pauseSound('pdcs');
+		pauseSound('ooa');
+		pauseSound('hit');
 		document.getElementById('goHex').innerHTML = world.hex;
 		document.getElementById('goLevel').innerHTML = 'Level: ' + world.level;
 		document.getElementById('go').classList.remove('hide');
