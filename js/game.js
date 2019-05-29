@@ -2,7 +2,7 @@
 //This game was created for www.TheExpanseLives.com
 //Developer: Mikhail Thomas - me@mikhailthomas.com
 const FPS = 30;
-const SCALE = 30;
+const SCALE = 30; // Res(H*W/69120)
 const TURN_SPEED = 360;
 const SHIP_THRUST = 5;
 const BULLET_SPEED = 10;
@@ -29,6 +29,7 @@ const innerThrustColor = 'lightcyan';
 const outerThrustColor = 'deepskyblue';
 const bulletColor = 'gold';
 
+//canvas settings
 var canv = document.getElementById('space'),
 	ctx = canv.getContext('2d');
 	ctx.canvas.width  = window.innerWidth - 200;
@@ -37,257 +38,9 @@ var canv = document.getElementById('space'),
 var curFrame = 0;
 var cakeCount = 0;
 
-var ship = {
-	x: canv.width/2,
-	y: canv.height/2,
-	r: 30,
-	inv: false,
-	a: toRads(90),
-	rot: 0, //convert to radians
-	accl: false,
-	ammo: MAX_AMMO,
-	reloading: false,
-	vel: {
-		x: 0,
-		y: 0
-	},
-	firing: false,
-	turret1: new Turret(-8,-8),
-	turret2: new Turret(8, 8),
-	fire(){
-		if(ship.firing){
-			if(ship.ammo > 0 && !ship.reloading){
-				pauseSound('ooa');
-				playSound('pdcs', V_PDCS);
-				ship.ammo--;
-				ship.turret1.bullet.push({
-				x: ship.turret1.x + 15 * Math.cos(ship.turret1.a),
-				y: ship.turret1.y + 15 * Math.sin(ship.turret1.a),
-				xvel: BULLET_SPEED * Math.cos(ship.turret1.a),
-				yvel: BULLET_SPEED * Math.sin(ship.turret1.a),
-				live: true
-				})
-			} else {
-				pauseSound('pdcs');
-				playSound('ooa', V_OOA);
-			};
-			if(ship.ammo > 0 && !ship.reloading){
-				ship.ammo--;
-				ship.turret2.bullet.push({
-				x: ship.turret2.x + 15 * Math.cos(ship.turret2.a),
-				y: ship.turret2.y + 15 * Math.sin(ship.turret2.a),
-				xvel: BULLET_SPEED * Math.cos(ship.turret2.a),
-				yvel: BULLET_SPEED * Math.sin(ship.turret2.a),
-				live: true
-				})
-			};
-			if(ship.ammo === 0) {
-				ship.reloading = true;
-				updateAmmo();
-				setTimeout(reload, RELOAD_TIME);
-			};
-		} else {
-			pauseSound('pdcs');
-			pauseSound('ooa');
-		}
-	},
-	draw(){
-		for (var i = 0; i < world.asteroids.count.length; i++){
-			if(ship.inv){
-				document.getElementById('ammo').classList.add('cheat');
-			}
-			if(distBetweenPoints(ship.x, ship.y, world.asteroids.count[i].x, world.asteroids.count[i].y) < ship.r + world.asteroids.count[i].r && !ship.inv){
-				changeState(State.GameOver);
-			}
-		}
-		if(currentState === State.Live){
-			ctx.save();
-			ctx.translate(ship.x,ship.y);
-			ctx.rotate(-1*(ship.a-Math.PI/2));
-			if(ship.accl){
-				ctx.fillStyle = outerThrustColor;
-				ctx.beginPath();
-				ctx.arc(0,33, SCALE/5, 0, Math.PI * 2, false);
-				ctx.fill();
-				ctx.fillStyle = innerThrustColor;
-				ctx.beginPath();
-				ctx.arc(0,33, SCALE/10, 0, Math.PI * 2, false);
-				ctx.fill();
-			}
-			ctx.drawImage(document.getElementById('roci'),-10,-31);
-			ctx.restore();
-		}
+var ship = new Ship();
+var world = new World();
 
-		if(HITBOX){
-			ctx.strokeStyle = 'lime'
-			ctx.beginPath();
-			ctx.arc(ship.x, ship.y, ship.r, 0, Math.PI * 2, false);
-			ctx.stroke();
-		}
-		
-
-	},
-	move(){
-		//move ship
-		if(ship.accl){
-			ship.vel.x += SHIP_THRUST*Math.cos(ship.a) / FPS;
-			ship.vel.y -= SHIP_THRUST*Math.sin(ship.a) / FPS;
-		}
-		ship.x += ship.vel.x;
-		ship.y += ship.vel.y;
-		
-		if(ship.x >= canv.width){
-			ship.x = 0;
-		} else if(ship.x <= 0){
-			ship.x = canv.width - 2;
-		}
-	
-		if(ship.y >= canv.height){
-			ship.y = 0;
-		} else if(ship.y <= 0){
-			ship.y = canv.height - 2;
-		}
-	},
-	turn(){
-		//rotate ship
-		ship.a += ship.rot;
-	}
-},
-
-
-world = {
-	mousex: 0,
-	mousey: 0,
-	level: 1,
-	sound: true,
-	sfx: true,
-	version: '1.0.5',
-	hex: '0',
-	particales: [],
-	space(){
-			//draw space
-		if(cakeCount < 3){
-			ctx.fillStyle = 'black'; //norm black
-		} else {
-			ctx.fillStyle = 'pink'; //norm black
-		}
-		
-		ctx.fillRect(0, 0, canv.width, canv.height);
-	},
-	asteroids: {
-		count: [],
-		create(){
-				do {
-					x = Math.floor(Math.random() * canv.width);
-					y = Math.floor(Math.random() * canv.height);
-				} while (distBetweenPoints(ship.x, ship.y, x, y) < AST_SIZE * 2 + ship.r * 5);
-				vert = Math.floor(Math.random() * (AST_VERT + 1) + (AST_VERT/2));
-				offs = [];
-				for(var i = 0; i < vert; i++){
-					offs.push(Math.random() * AST_JAG * 2 + 1 - AST_JAG)
-				}
-			var tempHP = Math.floor(Math.random() * AST_HP);
-			world.asteroids.count.push({
-				x: x,
-				y: y,
-				xv: Math.random() * AST_VELOCITY / FPS * (Math.random() < 0.5 ? 1 : -1),
-				yv: Math.random() * AST_VELOCITY / FPS * (Math.random() < 0.5 ? 1 : -1),
-				r: (Math.random() + .50) * AST_SIZE / 2,
-				a: Math.random() * Math.PI * 2,
-				rot: Math.random() - Math.random(),
-				vert: vert,
-				offs: offs,
-				maxHP: tempHP,
-				hp: tempHP,
-				pv: tempHP,
-				live: true
-			})
-		},
-		draw(){
-			for(var i = 0; i < world.asteroids.count.length; i++){
-				if(world.asteroids.count[i].hp <= 0){
-					score += world.asteroids.count[i].pv;
-					calcScore();
-					world.asteroids.count[i].live = false;
-					continue;
-				}
-			}
-			ctx.strokeStyle = asteroidColor;
-			ctx.lineWidth = SCALE/10;
-			for(var i = 0; i < world.asteroids.count.length; i++){
-				if(!world.asteroids.count[i].live){
-					continue;
-				}
-				//localize
-				x = world.asteroids.count[i].x;
-				y = world.asteroids.count[i].y;
-				r = world.asteroids.count[i].r;
-				a = world.asteroids.count[i].a;
-				vert = world.asteroids.count[i].vert;
-				offs = world.asteroids.count[i].offs;
-				//draw a path
-				//ctx.fillStyle = 'rgb(' + (255 - (Math.round(world.asteroids.count[i].hp/world.asteroids.count[i].maxHP)*255)) + '0,0)';
-				var tempFill = 255 - ((world.asteroids.count[i].hp/world.asteroids.count[i].maxHP)*255);
-				ctx.fillStyle = 'rgb(0,0,' + tempFill + ')';
-				ctx.beginPath();
-				ctx.moveTo(
-					x + r * offs[0] * Math.cos(a),
-					y + r * offs[0] * Math.sin(a)
-				)
-				//draw polygon
-				for(var j = 1; j <= vert; j++){
-					ctx.lineTo(
-						x + r *  offs[j] * Math.cos(a + j * Math.PI * 2 / vert),
-						y + r * offs[j] * Math.sin(a + j * Math.PI * 2 / vert)
-						)
-				}
-				ctx.closePath();
-				ctx.stroke();
-				ctx.fill();
-
-				if(HITBOX){
-					ctx.strokeStyle = 'lime'
-					ctx.beginPath();
-					ctx.arc(x, y, r, 0, Math.PI * 2, false);
-					ctx.stroke();
-				}
-				//move the asteroids
-				world.asteroids.count[i].x += world.asteroids.count[i].xv;
-				world.asteroids.count[i].y += world.asteroids.count[i].yv;
-
-				//rotate
-				world.asteroids.count[i].a += world.asteroids.count[i].rot / FPS;
-
-				//loop around
-				if(world.asteroids.count[i].x + world.asteroids.count[i].r < 0){
-					world.asteroids.count[i].x = canv.width;// - world.asteroids.count[i].r;
-				} else if(world.asteroids.count[i].x - world.asteroids.count[i].r > canv.width ){
-					world.asteroids.count[i].x = 0;// + world.asteroids.count[i].r;
-				}
-
-				if(world.asteroids.count[i].y + world.asteroids.count[i].r < 0){
-					world.asteroids.count[i].y = canv.height;// + world.asteroids.count[i].r;
-				} else if(world.asteroids.count[i].y  - world.asteroids.count[i].r > canv.height){
-					world.asteroids.count[i].y = 0;// + world.asteroids.count[i].r
-				}
-			}
-			for(var i = 0; i < world.asteroids.count.length; i++){
-				if(!world.asteroids.count[i].live){
-					if(world.sfx) {
-						playSound('explode1', V_EXP);
-					}
-					world.asteroids.count.splice(i, 1);
-					if(world.asteroids.count.length % 2 === 1){
-						quoteCrew();
-					}
-				}
-			}
-			if(world.asteroids.count.length === 0){
-				nextLevel();
-			}
-		},
-	}
-}
 // Create Asteroids
 function createAsteroids(){
 	for(var i = 0; i < (AST_NUM * world.level)/2; i++){
@@ -302,7 +55,7 @@ document.getElementById('patch').innerHTML = ' v' + world.version;
 messageIngest('Starting Level: ' + world.level, 'console');
 
 function explode(x, y, type){
-
+ //build this please!
 }
 
 function distBetweenPoints(x1, y1, x2, y2){
