@@ -173,14 +173,8 @@ function update() {
 	world.space();
 	if(currentState === State.Live){
 		frameCount();
-		ship.move();
-		ship.turn();
-		world.asteroids.draw();
-		ship.turret1.draw();
-		ship.turret2.draw();
-		ship.fire();
-		ship.draw();
-		updateAmmo();
+		ship.update();
+		world.update();
 	}
 }
 

@@ -18,6 +18,9 @@ function World(){
 		
 		ctx.fillRect(0, 0, canv.width, canv.height);
 	},
+	update(){
+			this.asteroids.draw();
+	},
 	asteroids: {
 		count: [],
 		create(){

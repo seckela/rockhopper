@@ -115,6 +115,15 @@ function Ship(){
 			//rotate ship
 			this.a += this.rot;
 		},
+		update(){
+			this.move();
+			this.turn();
+			this.turret1.draw();
+			this.turret2.draw();
+			this.fire();
+			this.draw();
+			updateAmmo();
+		},
 		reset(){
 			ship.turret1.bullet = [];
 			ship.turret2.bullet = [];
