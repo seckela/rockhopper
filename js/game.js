@@ -217,18 +217,7 @@ function resetGame() {
 	calcScore();
 	world.asteroids.count = [];
 	createAsteroids();
-	ship.turret1.bullet = [];
-	ship.turret2.bullet = [];
-	ship.x = canv.width/2;
-	ship.y = canv.height/2;
-	ship.r = 30;
-	ship.a = toRads(90);
-	ship.rot = 0; //convert to radians
-	ship.accl = false;
-	ship.vel = {
-		x: 0,
-		y: 0
-	}
+	ship.reset();
 	changeState(State.Live);
 	calcScore();
 	reload();
