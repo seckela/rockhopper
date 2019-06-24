@@ -120,7 +120,7 @@ function World(){
 			}
 			for(var i = 0; i < this.count.length; i++){
 				if(!this.count[i].live){
-					if(tempThis.sfx) {
+					if(this.sfx) {
 						playSound('explode1', V_EXP);
 					}
 					this.count.splice(i, 1);
