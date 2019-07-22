@@ -1,0 +1,24 @@
+{
+  "name": "rockhopper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "version.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seckela/rockhopper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seckela/rockhopper/issues"
+  },
+  "homepage": "https://github.com/seckela/rockhopper#readme",
+  "devDependencies": {
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
+  }
+}

@@ -16,12 +16,6 @@ const HITBOX = false;
 const MAX_AMMO = 200;
 const RELOAD_TIME = 2000;
 
-//SFX CONST VOLUMES
-
-const V_HIT = 0.2;
-const V_PDCS = 0.4;
-const V_EXP = 0.2;
-const V_OOA = 0.4;
 
 // color pallete
 const asteroidColor = 'deepskyblue';
